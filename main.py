@@ -53,6 +53,6 @@ param_group = []
 for i in range(population):
     param_group.append(nn.generate_params(150))
 
-ga = GeneticAlgorithm(param_group, nn, crossover, mutation, max_iter=5000)
+ga = GeneticAlgorithm(param_group, nn, crossover, mutation, max_iter=50000)
 ga.find()
 nn.evaluate_on_all_datasets(ga)
