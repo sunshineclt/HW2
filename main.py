@@ -22,6 +22,6 @@ def neighbor_nn(params):
 # rhc.find()
 # evaluate_on_all_datasets(nn, rhc)
 
-sa = SimulatedAnnealing(params, neighbor_nn, nn, max_try_per_step=10000, max_iter=2000)
+sa = SimulatedAnnealing(params, neighbor_nn, nn, max_try_per_step=10000, max_iter=4000, temperature_decay=0.998)
 sa.find()
 evaluate_on_all_datasets(nn, sa)
