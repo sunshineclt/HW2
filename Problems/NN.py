@@ -41,9 +41,8 @@ class NN(Problem):
                 "W2": W2,
                 "b2": b2}
 
-    def evaluate(self):
-        print("Please use evaluate_on_dataset instead")
-        raise NotImplementedError
+    def evaluate(self, param):
+        return self.evaluate_on_dataset(param, dataset="train")
 
     def evaluate_on_dataset(self, params, dataset="train"):
         if dataset == "train":

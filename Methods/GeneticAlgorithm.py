@@ -21,8 +21,8 @@ class GeneticAlgorithm(Method):
         new_1, new_2 = self.crossover_op((self.param_group[choice[-1]], self.param_group[choice[-2]]))
         new_1 = self.mutation_op(new_1, self.mutation_p)
         new_2 = self.mutation_op(new_2, self.mutation_p)
-        new_1_score = self.problem.evaluate_on_dataset(new_1, dataset="train")
-        new_2_score = self.problem.evaluate_on_dataset(new_2, dataset="train")
+        new_1_score = self.problem.evaluate(new_1)
+        new_2_score = self.problem.evaluate(new_2)
 
         sort_array = [new_1_score, new_2_score, self.param_score[sort_index[0]], self.param_score[sort_index[1]]]
         sort_param = [new_1, new_2, self.param_group[sort_index[0]], self.param_group[sort_index[1]]]
@@ -41,7 +41,7 @@ class GeneticAlgorithm(Method):
 
     def find(self):
         for index, param in enumerate(self.param_group):
-            self.param_score[index] = self.problem.evaluate_on_dataset(param, dataset="train")
+            self.param_score[index] = self.problem.evaluate(param)
 
         iter_time = 0
         max_iter = self.hyper_params["max_iter"]

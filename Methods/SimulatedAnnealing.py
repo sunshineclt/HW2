@@ -20,7 +20,7 @@ class SimulatedAnnealing(Method):
         time = 0
         while time < self.hyper_params["max_try_per_step"]:
             neighbor = self.neighbor_op(self.params)
-            neighbor_score = self.problem.evaluate_on_dataset(neighbor, dataset="train")
+            neighbor_score = self.problem.evaluate(neighbor)
             if (self.previous_score < neighbor_score) or (np.random.random() < acceptance_rate(neighbor_score - self.previous_score, self.temperature)):
                 self.params = neighbor
                 print("Param Updated! Score %f -> %f" % (self.previous_score, neighbor_score))
@@ -35,7 +35,7 @@ class SimulatedAnnealing(Method):
     def find(self):
         iter_time = 0
         is_updating = True
-        self.previous_score = self.problem.evaluate_on_dataset(self.params, dataset="train")
+        self.previous_score = self.problem.evaluate(self.params)
         max_iter = self.hyper_params["max_iter"]
         self.temperature = self.initial_temperature
         while is_updating and (max_iter == -1 or iter_time < max_iter):
