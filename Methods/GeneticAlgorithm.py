@@ -1,6 +1,7 @@
 import numpy as np
 
 from Methods.Method import Method
+from utils import softmax
 
 
 class GeneticAlgorithm(Method):
@@ -17,7 +18,7 @@ class GeneticAlgorithm(Method):
 
     def step(self):
         sort_index = np.argsort(self.param_score)
-        choice = np.random.choice(self.population, size=2, p=self.param_score / np.sum(self.param_score), replace=False)
+        choice = np.random.choice(self.population, size=2, p=softmax(self.param_score), replace=False)
         new_1, new_2 = self.crossover_op((self.param_group[choice[-1]], self.param_group[choice[-2]]))
         new_1 = self.mutation_op(new_1, self.mutation_p)
         new_2 = self.mutation_op(new_2, self.mutation_p)

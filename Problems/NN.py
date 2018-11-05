@@ -2,7 +2,7 @@ from Problems.Problem import Problem
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import numpy as np
-from utils import softmax
+from utils import softmax_2D
 from Methods.GeneticAlgorithm import GeneticAlgorithm
 
 
@@ -55,7 +55,7 @@ class NN(Problem):
             X = self.X_test
             y = self.y_test
 
-        y_predict = np.argmax(softmax(np.dot(X, params["W1"]) + params["b1"]).dot(params["W2"]) + params["b2"], axis=1)
+        y_predict = np.argmax(softmax_2D(np.dot(X, params["W1"]) + params["b1"]).dot(params["W2"]) + params["b2"], axis=1)
         score = np.sum(y_predict == y)
         return score
 

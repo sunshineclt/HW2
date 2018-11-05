@@ -4,14 +4,15 @@ from Methods.GeneticAlgorithm import GeneticAlgorithm
 from Problems.FunctionOptimization import FunctionOptimization
 import numpy as np
 
-fo = FunctionOptimization(n=10)
+limit = 5
+fo = FunctionOptimization(n=5, limit=limit)
 params = fo.generate_params()
 
 
 def neighbor_fo(params):
-    perturb = np.random.normal(loc=0, scale=1, size=params.shape)
+    perturb = np.random.normal(loc=0, scale=2, size=params.shape)
     new_param = params + perturb
-    new_param = np.clip(new_param, -5.12, 5.12)
+    new_param = np.clip(new_param, -limit, limit)
     return new_param
 
 
@@ -36,7 +37,7 @@ def mutation(params, p):
     ran = np.random.random(size=params.shape)
     perturb = np.random.normal(loc=0, scale=1, size=params.shape)
     new_params = np.where(ran < p, params + perturb, params)
-    new_params = np.clip(new_params, -5.12, 5.12)
+    new_params = np.clip(new_params, -limit, limit)
     return new_params
 
 
