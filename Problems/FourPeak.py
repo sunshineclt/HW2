@@ -14,11 +14,11 @@ class FourPeak(Problem):
 
     def evaluate(self, param):
         i = 0
-        while param[i] == 1:
+        while (i < self.n) and (param[i] == 1):
             i += 1
         head = i
         j = self.n - 1
-        while param[j] == 0:
+        while (j >= 0) and (param[j] == 0):
             j -= 1
         tail = self.n - j - 1
         bonus = 0
