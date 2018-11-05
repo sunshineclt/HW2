@@ -44,6 +44,6 @@ param_group = []
 for i in range(population):
     param_group.append(fp.generate_params())
 
-ga = GeneticAlgorithm(param_group, fp, crossover, mutation, max_iter=10000, mutation_p=0.2)
-ga.find()
+ga = GeneticAlgorithm(param_group, fp, crossover, mutation, max_iter=-1, mutation_p=0.5)
+ga.find(stop_fun=lambda fitness: fitness == fp.max_possible_fit)
 fp.evaluate_result(ga)

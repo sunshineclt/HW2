@@ -8,6 +8,7 @@ class FourPeak(Problem):
     def __init__(self, n, bonus_threshold):
         self.n = n
         self.bonus_threshold = bonus_threshold
+        self.max_possible_fit = 100 + n - bonus_threshold
 
     def generate_params(self):
         return np.random.randint(0, 2, size=(self.n, ))
@@ -22,7 +23,7 @@ class FourPeak(Problem):
             j -= 1
         tail = self.n - j - 1
         bonus = 0
-        if (head > self.bonus_threshold) and (tail > self.bonus_threshold):
+        if (head >= self.bonus_threshold) and (tail >= self.bonus_threshold):
             bonus = 100
         return max(head, tail) + bonus
 

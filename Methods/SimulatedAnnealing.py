@@ -4,7 +4,8 @@ import numpy as np
 
 
 class SimulatedAnnealing(Method):
-    def __init__(self, params, neighbor_op, problem, max_try_per_step=100, max_iter=1000, initial_temperature=100, temperature_decay=0.99):
+    def __init__(self, params, neighbor_op, problem, max_try_per_step=100, max_iter=1000, initial_temperature=100, temperature_decay=0.99,
+                 print_freq=100):
         super().__init__()
         self.params = params
         self.hyper_params = {"max_try_per_step": max_try_per_step,
@@ -15,6 +16,7 @@ class SimulatedAnnealing(Method):
         self.initial_temperature = initial_temperature
         self.temperature_decay = temperature_decay
         self.temperature = 0
+        self.print_freq = print_freq
 
     def step(self):
         time = 0
@@ -32,7 +34,7 @@ class SimulatedAnnealing(Method):
             print("No param update! ")
         return time != self.hyper_params["max_try_per_step"]
 
-    def find(self):
+    def find(self, stop_fun=None):
         iter_time = 0
         is_updating = True
         self.previous_score = self.problem.evaluate(self.params)
@@ -43,3 +45,10 @@ class SimulatedAnnealing(Method):
             print("iter: %d" % iter_time, end=" ")
             is_updating = self.step()
             self.temperature *= self.temperature_decay
+            if stop_fun is not None:
+                best_result = self.problem.evaluate(self.params)
+                if iter_time % self.print_freq == 0:
+                    print("Iter time: %d, best result: %f" % (iter_time, best_result))
+                if stop_fun(best_result):
+                    print("Optimal Reached! ")
+                    break

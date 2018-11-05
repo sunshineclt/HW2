@@ -5,7 +5,7 @@ from utils import softmax
 
 
 class GeneticAlgorithm(Method):
-    def __init__(self, param_group, problem, crossover_op, mutation_op, mutation_p=0.1, max_iter=1000):
+    def __init__(self, param_group, problem, crossover_op, mutation_op, mutation_p=0.1, max_iter=1000, print_freq=1000):
         super().__init__()
         self.param_group = param_group
         self.population = len(self.param_group)
@@ -15,6 +15,7 @@ class GeneticAlgorithm(Method):
         self.mutation_p = mutation_p
         self.problem = problem
         self.param_score = np.zeros(shape=(self.population, ))
+        self.print_freq = print_freq
 
     def step(self):
         sort_index = np.argsort(self.param_score)
@@ -30,7 +31,9 @@ class GeneticAlgorithm(Method):
         sort_new = np.argsort(sort_array)
         is_no_updating = ((sort_new[2] == 2) and (sort_new[3] == 3)) or ((sort_new[3] == 3) and (sort_new[2] == 2))
         if is_no_updating:
-            print("No param update! ")
+            # print("No param update! ")
+            # print("")
+            pass
         else:
             print("Replace Score (%f, %f) with (%f, %f)" % (self.param_score[sort_index[0]], self.param_score[sort_index[1]],
                                                             sort_array[sort_new[2]], sort_array[sort_new[3]]))
@@ -40,7 +43,7 @@ class GeneticAlgorithm(Method):
         self.param_group[sort_index[1]] = sort_param[sort_new[3]]
         return ~is_no_updating
 
-    def find(self):
+    def find(self, stop_fun=None):
         for index, param in enumerate(self.param_group):
             self.param_score[index] = self.problem.evaluate(param)
 
@@ -48,5 +51,12 @@ class GeneticAlgorithm(Method):
         max_iter = self.hyper_params["max_iter"]
         while max_iter == -1 or iter_time < max_iter:
             iter_time += 1
+            # print("iter: %d" % iter_time, end=" ")
             self.step()
-            print("iter: %d" % iter_time, end=" ")
+            if stop_fun is not None:
+                best_result = self.problem.evaluate(self.param_group[np.argmax(self.param_score)])
+                if iter_time % self.print_freq == 0:
+                    print("Iter : %d, best result: %f" % (iter_time, best_result))
+                if stop_fun(best_result):
+                    print("Optimal Reached! ")
+                    break

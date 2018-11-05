@@ -2,7 +2,7 @@ from Methods.Method import Method
 
 
 class RandomHillClimbing(Method):
-    def __init__(self, params, neighbor_op, problem, max_try_per_step=100, max_iter=1000):
+    def __init__(self, params, neighbor_op, problem, max_try_per_step=100, max_iter=1000, print_freq=1000):
         super().__init__()
         self.params = params
         self.hyper_params = {"max_try_per_step": max_try_per_step,
@@ -10,6 +10,7 @@ class RandomHillClimbing(Method):
         self.neighbor_op = neighbor_op
         self.problem = problem
         self.previous_score = 0
+        self.print_freq = print_freq
 
     def step(self):
         time = 0
@@ -27,7 +28,7 @@ class RandomHillClimbing(Method):
             print("No param update! ")
         return time != self.hyper_params["max_try_per_step"]
 
-    def find(self):
+    def find(self, stop_fun=None):
         iter_time = 0
         is_updating = True
         self.previous_score = self.problem.evaluate(self.params)
@@ -36,3 +37,10 @@ class RandomHillClimbing(Method):
             iter_time += 1
             print("iter: %d" % iter_time, end=" ")
             is_updating = self.step()
+            if stop_fun is not None:
+                best_result = self.problem.evaluate(self.params)
+                if iter_time % self.print_freq == 0:
+                    print("Iter time: %d, best result: %f" % (iter_time, best_result))
+                if stop_fun(best_result):
+                    print("Optimal Reached! ")
+                    break

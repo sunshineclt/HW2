@@ -5,5 +5,5 @@ class Method:
     def step(self):
         raise NotImplementedError
 
-    def find(self):
+    def find(self, stop_fun=None):
         raise NotImplementedError
