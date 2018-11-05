@@ -19,6 +19,6 @@ def neighbor(params):
 rhc = RandomHillClimbing(params, neighbor, nn, max_try_per_step=10000)
 rhc.find()
 
-print("Training acc: %f" % nn.evaluate_on_dataset(rhc.params, dataset="train") / nn.y_train.shape[0])
-print("Validation acc: %f" % nn.evaluate_on_dataset(rhc.params, dataset="val") / nn.y_val.shape[0])
-print("Test acc: %f" % nn.evaluate_on_dataset(rhc.params, dataset="test") / nn.y_test.shape[0])
+print("Training acc: %f" % (nn.evaluate_on_dataset(rhc.params, dataset="train") / nn.y_train.shape[0]))
+print("Validation acc: %f" % (nn.evaluate_on_dataset(rhc.params, dataset="val") / nn.y_val.shape[0]))
+print("Test acc: %f" % (nn.evaluate_on_dataset(rhc.params, dataset="test") / nn.y_test.shape[0]))
