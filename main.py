@@ -1,4 +1,6 @@
 from Methods.RandomHillClimbing import RandomHillClimbing
+from Methods.SimulatedAnnealing import SimulatedAnnealing
+from utils import evaluate_on_all_datasets
 from Problems.NN import NN
 import numpy as np
 
@@ -6,7 +8,7 @@ nn = NN()
 params = nn.init_nn(150)
 
 
-def neighbor(params):
+def neighbor_nn(params):
     new_params = {}
     for weight_name in params:
         ran = np.random.random(size=params[weight_name].shape)
@@ -16,9 +18,10 @@ def neighbor(params):
     return new_params
 
 
-rhc = RandomHillClimbing(params, neighbor, nn, max_try_per_step=10000)
-rhc.find()
+# rhc = RandomHillClimbing(params, neighbor_nn, nn, max_try_per_step=10000)
+# rhc.find()
+# evaluate_on_all_datasets(nn, rhc)
 
-print("Training acc: %f" % (nn.evaluate_on_dataset(rhc.params, dataset="train") / nn.y_train.shape[0]))
-print("Validation acc: %f" % (nn.evaluate_on_dataset(rhc.params, dataset="val") / nn.y_val.shape[0]))
-print("Test acc: %f" % (nn.evaluate_on_dataset(rhc.params, dataset="test") / nn.y_test.shape[0]))
+sa = SimulatedAnnealing(params, neighbor_nn, nn, max_try_per_step=10000)
+sa.find()
+evaluate_on_all_datasets(nn, sa)
