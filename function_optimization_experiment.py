@@ -4,7 +4,7 @@ from Methods.GeneticAlgorithm import GeneticAlgorithm
 from Problems.FunctionOptimization import FunctionOptimization
 import numpy as np
 
-fo = FunctionOptimization(n=2)
+fo = FunctionOptimization(n=10)
 params = fo.generate_params()
 
 
