@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import numpy as np
 from utils import softmax
+from Methods.GeneticAlgorithm import GeneticAlgorithm
 
 
 class NN(Problem):
@@ -28,7 +29,7 @@ class NN(Problem):
         print("Validation amount: ", self.X_val.shape[0])
         print("Test amount: ", self.X_test.shape[0])
 
-    def init_nn(self, hidden_dim):
+    def generate_params(self, hidden_dim):
         input_dim = self.X_train.shape[1]
         output_dim = 4
         W1 = np.random.normal(size=(input_dim, hidden_dim))
@@ -58,3 +59,14 @@ class NN(Problem):
         y_predict = np.argmax(softmax(np.dot(X, params["W1"]) + params["b1"]).dot(params["W2"]) + params["b2"], axis=1)
         score = np.sum(y_predict == y)
         return score
+
+    def evaluate_on_all_datasets(self, method):
+        if isinstance(method, GeneticAlgorithm):
+            best_param = method.param_group[np.argmax(method.param_score)]
+            print("Training acc: %f" % (self.evaluate_on_dataset(best_param, dataset="train") / self.y_train.shape[0]))
+            print("Validation acc: %f" % (self.evaluate_on_dataset(best_param, dataset="val") / self.y_val.shape[0]))
+            print("Test acc: %f" % (self.evaluate_on_dataset(best_param, dataset="test") / self.y_test.shape[0]))
+        else:
+            print("Training acc: %f" % (self.evaluate_on_dataset(method.params, dataset="train") / self.y_train.shape[0]))
+            print("Validation acc: %f" % (self.evaluate_on_dataset(method.params, dataset="val") / self.y_val.shape[0]))
+            print("Test acc: %f" % (self.evaluate_on_dataset(method.params, dataset="test") / self.y_test.shape[0]))

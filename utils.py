@@ -9,9 +9,3 @@ def softmax(x):
 
 def acceptance_rate(x, t):
     return np.exp(x / t)
-
-
-def evaluate_on_all_datasets(problem, method):
-    print("Training acc: %f" % (problem.evaluate_on_dataset(method.params, dataset="train") / problem.y_train.shape[0]))
-    print("Validation acc: %f" % (problem.evaluate_on_dataset(method.params, dataset="val") / problem.y_val.shape[0]))
-    print("Test acc: %f" % (problem.evaluate_on_dataset(method.params, dataset="test") / problem.y_test.shape[0]))
