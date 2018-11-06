@@ -36,10 +36,10 @@ for i in range(experiment_number):
     result_sum += result
 print("takes %d seconds" % (datetime.now() - start_time).seconds)
 print("Averaged result: %f" % (result_sum * 1.0 / experiment_number))
-# plt.plot(range(100, 20001, 100), np.mean(result_record, axis=0), label="multi")
-# plt.show()
-# plt.savefig("fig/fp_rhc")
-# save_result(result_record, "fp_rhc_multi")
+plt.plot(range(100, 20001, 100), np.mean(result_record, axis=0), label="multi")
+plt.show()
+plt.savefig("fig/fp_rhc")
+save_result(result_record, "fp_rhc_multi")
 #
 # result_sum = 0
 # result_record = []
