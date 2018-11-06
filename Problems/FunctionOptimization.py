@@ -14,7 +14,11 @@ class FunctionOptimization(Problem):
         return np.random.random(size=(self.n, )) * self.limit * 2 - self.limit
 
     def evaluate(self, param):
-        return -10*self.n - np.sum(np.square(param)-self.A*np.cos(2*np.pi*param))
+        # return -10*self.n - np.sum(np.square(param)-self.A*np.cos(2*np.pi*param))
+        # return -(np.sin(param[0]+param[1]) + (param[0]-param[1])**2 - 1.5*param[0]+2.5*param[1])
+        # return -(np.square(np.sin(param[0]**2 - param[1]**2))-0.5)/((1+0.001*(param[0]**2+param[1]**2))**2)
+        return -(100*(param[1]-param[0])**2-10*param[0]+20*np.cos(param[0]) +
+                 100*(param[2]-param[1])**2-10*param[1]+20*np.cos(param[1]))
 
     def evaluate_result(self, method):
         if isinstance(method, GeneticAlgorithm):
