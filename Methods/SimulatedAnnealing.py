@@ -40,7 +40,7 @@ class SimulatedAnnealing(Method):
         self.previous_score = self.problem.evaluate(self.params)
         max_iter = self.hyper_params["max_iter"]
         self.temperature = self.initial_temperature
-        while is_updating and (max_iter == -1 or iter_time < max_iter):
+        while max_iter == -1 or (iter_time < max_iter and is_updating):
             iter_time += 1
             print("iter: %d" % iter_time, end=" ")
             is_updating = self.step()

@@ -2,7 +2,7 @@ from Methods.Method import Method
 
 
 class RandomHillClimbing(Method):
-    def __init__(self, params, neighbor_op, problem, max_try_per_step=100, max_iter=1000, print_freq=1000):
+    def __init__(self, params, neighbor_op, problem, max_try_per_step=100, max_iter=1000, print_freq=1000, verbose=False):
         super().__init__()
         self.params = params
         self.hyper_params = {"max_try_per_step": max_try_per_step,
@@ -11,6 +11,7 @@ class RandomHillClimbing(Method):
         self.problem = problem
         self.previous_score = 0
         self.print_freq = print_freq
+        self.verbose = verbose
 
     def step(self):
         time = 0
@@ -19,12 +20,13 @@ class RandomHillClimbing(Method):
             neighbor_score = self.problem.evaluate(neighbor)
             if self.previous_score < neighbor_score:
                 self.params = neighbor
-                print("Param Updated! Score %f -> %f" % (self.previous_score, neighbor_score))
+                if self.verbose:
+                    print("Param Updated! Score %f -> %f" % (self.previous_score, neighbor_score))
                 self.previous_score = neighbor_score
                 break
             time += 1
         is_no_updating = time == self.hyper_params["max_try_per_step"]
-        if is_no_updating:
+        if is_no_updating and self.verbose:
             print("No param update! ")
         return time != self.hyper_params["max_try_per_step"]
 
@@ -33,14 +35,20 @@ class RandomHillClimbing(Method):
         is_updating = True
         self.previous_score = self.problem.evaluate(self.params)
         max_iter = self.hyper_params["max_iter"]
-        while is_updating and (max_iter == -1 or iter_time < max_iter):
+        result_record = []
+        while max_iter == -1 or iter_time < max_iter:
             iter_time += 1
-            print("iter: %d" % iter_time, end=" ")
+            if self.verbose:
+                print("iter: %d" % iter_time, end=" ")
             is_updating = self.step()
-            if stop_fun is not None:
-                best_result = self.problem.evaluate(self.params)
-                if iter_time % self.print_freq == 0:
-                    print("Iter time: %d, best result: %f" % (iter_time, best_result))
-                if stop_fun(best_result):
-                    print("Optimal Reached! ")
-                    break
+            if iter_time % self.print_freq == 0:
+                result = self.problem.evaluate(self.params)
+                result_record.append(result)
+                if self.verbose:
+                    print("Iter time: %d, best result: %f" % (iter_time, result))
+                if stop_fun is not None:
+                    if stop_fun(result):
+                        if self.verbose:
+                            print("Optimal Reached! ")
+                        break
+        return result_record

@@ -1,4 +1,5 @@
 import numpy as np
+import pickle
 
 
 def softmax_2D(x):
@@ -14,3 +15,8 @@ def softmax(x):
 
 def acceptance_rate(x, t):
     return np.exp(x / t)
+
+
+def save_result(result, filename):
+    with open("result/" + filename + ".pkl", "wb") as f:
+        pickle.dump(result, f)

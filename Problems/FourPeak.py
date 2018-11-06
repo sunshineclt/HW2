@@ -30,8 +30,13 @@ class FourPeak(Problem):
     def evaluate_result(self, method):
         if isinstance(method, GeneticAlgorithm):
             best_param = method.param_group[np.argmax(method.param_score)]
+            best_result = self.evaluate(best_param)
             print("Optimized params: ", best_param)
-            print("Optimization result: %f" % (self.evaluate(best_param)))
+            print("Optimization result: %f" % best_result)
+            return best_result
         else:
             print("Optimized params: ", method.params)
-            print("Optimization result: %f" % (self.evaluate(method.params)))
+            result = self.evaluate(method.params)
+            print("Optimization result: %f" % result)
+            return result
+
