@@ -51,7 +51,7 @@ result_train_record = []
 experiment_number = 10
 for i in range(experiment_number):
     params = nn.generate_params(150)
-    sa = SimulatedAnnealing(params, neighbor_nn, nn, max_try_per_step=1000, max_iter=1000,
+    sa = SimulatedAnnealing(params, neighbor_nn, nn, max_try_per_step=1000, max_iter=4000,
                             temperature_decay=0.997, print_freq=100, verbose=True)
     # sa.find(stop_fun=lambda fitness: fitness == fp.max_possible_fit)
     result_train_record.append(sa.find())
