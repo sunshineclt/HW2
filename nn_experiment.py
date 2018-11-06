@@ -19,26 +19,26 @@ def neighbor_nn(params):
     return new_params
 
 
-result_train = []
-result_val = []
-result_test = []
-result_train_record = []
-result_val_record = []
-experiment_number = 10
-for i in range(experiment_number):
-    params = nn.generate_params(150)
-    rhc = RandomHillClimbing(params, neighbor_nn, nn, max_try_per_step=100, max_iter=100, print_freq=10, verbose=True, is_nn=True)
-    train, val = rhc.find()
-    result_train_record.append(train)
-    result_val_record.append(val)
-    result = nn.evaluate_on_all_datasets(rhc)
-    result_train.append(result[0])
-    result_val.append(result[1])
-    result_test.append(result[2])
-print("Averaged train result: %f" % np.mean(result_train))
-print("Averaged val result: %f" % np.mean(result_val))
-print("Averaged test result: %f" % np.mean(result_test))
-save_result((result_train_record, result_val_record), "nn_rhc")
+# result_train = []
+# result_val = []
+# result_test = []
+# result_train_record = []
+# result_val_record = []
+# experiment_number = 10
+# for i in range(experiment_number):
+#     params = nn.generate_params(150)
+#     rhc = RandomHillClimbing(params, neighbor_nn, nn, max_try_per_step=100, max_iter=100, print_freq=10, verbose=True, is_nn=True)
+#     train, val = rhc.find()
+#     result_train_record.append(train)
+#     result_val_record.append(val)
+#     result = nn.evaluate_on_all_datasets(rhc)
+#     result_train.append(result[0])
+#     result_val.append(result[1])
+#     result_test.append(result[2])
+# print("Averaged train result: %f" % np.mean(result_train))
+# print("Averaged val result: %f" % np.mean(result_val))
+# print("Averaged test result: %f" % np.mean(result_test))
+# save_result((result_train_record, result_val_record), "nn_rhc")
 # rhc = RandomHillClimbing(params, neighbor_nn, nn, max_try_per_step=10000)
 # rhc.find()
 # nn.evaluate_on_all_datasets(rhc)
@@ -52,10 +52,10 @@ experiment_number = 10
 for i in range(experiment_number):
     params = nn.generate_params(150)
     sa = SimulatedAnnealing(params, neighbor_nn, nn, max_try_per_step=1000, max_iter=1000,
-                            temperature_decay=0.997, print_freq=100)
+                            temperature_decay=0.997, print_freq=100, verbose=True)
     # sa.find(stop_fun=lambda fitness: fitness == fp.max_possible_fit)
     result_train_record.append(sa.find())
-    result = nn.evaluate_result(sa)
+    result = nn.evaluate_on_all_datasets(sa)
     result_train.append(result[0])
     result_val.append(result[1])
     result_test.append(result[2])
