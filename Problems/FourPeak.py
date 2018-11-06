@@ -39,4 +39,3 @@ class FourPeak(Problem):
             result = self.evaluate(method.params)
             print("Optimization result: %f" % result)
             return result
-
