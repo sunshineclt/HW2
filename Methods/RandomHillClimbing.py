@@ -17,7 +17,7 @@ class RandomHillClimbing(Method):
     def step(self):
         time = 0
         while time < self.hyper_params["max_try_per_step"]:
-            print("time %d" % time)
+            # print("time %d" % time)
             neighbor = self.neighbor_op(self.params)
             neighbor_score = self.problem.evaluate(neighbor)
             if self.previous_score < neighbor_score:
