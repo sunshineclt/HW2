@@ -1,4 +1,5 @@
 from Methods.Method import Method
+from Problems.NN import NN
 
 
 class RandomHillClimbing(Method):
@@ -36,6 +37,7 @@ class RandomHillClimbing(Method):
         self.previous_score = self.problem.evaluate(self.params)
         max_iter = self.hyper_params["max_iter"]
         result_record = []
+        result_val_record = []
         while max_iter == -1 or iter_time < max_iter:
             iter_time += 1
             if self.verbose:
@@ -44,6 +46,8 @@ class RandomHillClimbing(Method):
             if iter_time % self.print_freq == 0:
                 result = self.problem.evaluate(self.params)
                 result_record.append(result)
+                if isinstance(self.problem, NN):
+                    result_val_record.append(self.problem.evaluate_on_dataset(self.params, "val"))
                 if self.verbose:
                     print("Iter time: %d, result: %f" % (iter_time, result))
                 if stop_fun is not None:
@@ -51,4 +55,7 @@ class RandomHillClimbing(Method):
                         if self.verbose:
                             print("Optimal Reached! ")
                         break
-        return result_record
+        if isinstance(self.problem, NN):
+            return result_record, result_val_record
+        else:
+            return result_record

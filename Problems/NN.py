@@ -61,11 +61,13 @@ class NN(Problem):
 
     def evaluate_on_all_datasets(self, method):
         if isinstance(method, GeneticAlgorithm):
-            best_param = method.param_group[np.argmax(method.param_score)]
-            print("Training acc: %f" % (self.evaluate_on_dataset(best_param, dataset="train") / self.y_train.shape[0]))
-            print("Validation acc: %f" % (self.evaluate_on_dataset(best_param, dataset="val") / self.y_val.shape[0]))
-            print("Test acc: %f" % (self.evaluate_on_dataset(best_param, dataset="test") / self.y_test.shape[0]))
+            params = method.param_group[np.argmax(method.param_score)]
         else:
-            print("Training acc: %f" % (self.evaluate_on_dataset(method.params, dataset="train") / self.y_train.shape[0]))
-            print("Validation acc: %f" % (self.evaluate_on_dataset(method.params, dataset="val") / self.y_val.shape[0]))
-            print("Test acc: %f" % (self.evaluate_on_dataset(method.params, dataset="test") / self.y_test.shape[0]))
+            params = method.params
+        train_acc = self.evaluate_on_dataset(params, dataset="train") / self.y_train.shape[0]
+        val_acc = self.evaluate_on_dataset(params, dataset="val") / self.y_val.shape[0]
+        test_acc = self.evaluate_on_dataset(params, dataset="test") / self.y_test.shape[0]
+        print("Training acc: %f" % train_acc)
+        print("Validation acc: %f" % val_acc)
+        print("Test acc: %f" % test_acc)
+        return train_acc, val_acc, test_acc
