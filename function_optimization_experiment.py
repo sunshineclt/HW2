@@ -17,37 +17,37 @@ def neighbor_fo(params):
     return new_param
 
 
-result_sum = 0
-result_record = []
-experiment_number = 100
-for i in range(experiment_number):
-    params = fo.generate_params()
-    rhc = RandomHillClimbing(params, neighbor_fo, fo, max_try_per_step=1000, max_iter=100, print_freq=10)
-    result_record.append(rhc.find())
-    result = fo.evaluate_result(rhc)
-    result_sum += result
-print("Averaged result: %f" % (result_sum * 1.0 / experiment_number))
-plt.plot(range(10, 101, 10), np.mean(result_record, axis=0))
-plt.show()
-plt.savefig("fig/fo_rhc")
-save_result(result_record, "fo_rhc")
-
-
 # result_sum = 0
 # result_record = []
 # experiment_number = 100
 # for i in range(experiment_number):
 #     params = fo.generate_params()
-#     sa = SimulatedAnnealing(params, neighbor_fo, fo, max_try_per_step=1000, max_iter=1000,
-#                             initial_temperature=100, temperature_decay=0.99, print_freq=100)
-#     result_record.append(sa.find())
-#     result = fo.evaluate_result(sa)
+#     rhc = RandomHillClimbing(params, neighbor_fo, fo, max_try_per_step=1000, max_iter=100, print_freq=10)
+#     result_record.append(rhc.find())
+#     result = fo.evaluate_result(rhc)
 #     result_sum += result
 # print("Averaged result: %f" % (result_sum * 1.0 / experiment_number))
-# plt.plot(range(100, 1001, 100), np.mean(result_record, axis=0))
+# plt.plot(range(10, 101, 10), np.mean(result_record, axis=0))
 # plt.show()
-# plt.savefig("fig/fo_sa")
-# save_result(result_record, "fo_sa")
+# plt.savefig("fig/fo_rhc")
+# save_result(result_record, "fo_rhc")
+
+
+result_sum = 0
+result_record = []
+experiment_number = 100
+for i in range(experiment_number):
+    params = fo.generate_params()
+    sa = SimulatedAnnealing(params, neighbor_fo, fo, max_try_per_step=1000, max_iter=1000,
+                            initial_temperature=100, temperature_decay=0.99, print_freq=100)
+    result_record.append(sa.find())
+    result = fo.evaluate_result(sa)
+    result_sum += result
+print("Averaged result: %f" % (result_sum * 1.0 / experiment_number))
+plt.plot(range(100, 1001, 100), np.mean(result_record, axis=0))
+plt.show()
+plt.savefig("fig/fo_sa")
+save_result(result_record, "fo_sa")
 
 
 # def crossover(params):
