@@ -33,8 +33,8 @@ class SimulatedAnnealing(Method):
                 break
             time += 1
         is_no_updating = time == self.hyper_params["max_try_per_step"]
-        if is_no_updating and self.verbose:
-            print("No param update! ")
+        # if is_no_updating and self.verbose:
+        #     print("No param update! ")
         return time != self.hyper_params["max_try_per_step"]
 
     def find(self, stop_fun=None):
