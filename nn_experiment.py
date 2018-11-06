@@ -27,7 +27,7 @@ result_val_record = []
 experiment_number = 10
 for i in range(experiment_number):
     params = nn.generate_params(150)
-    rhc = RandomHillClimbing(params, neighbor_nn, nn, max_try_per_step=100, max_iter=1000, print_freq=100, verbose=True)
+    rhc = RandomHillClimbing(params, neighbor_nn, nn, max_try_per_step=100, max_iter=1000, print_freq=100, verbose=True, is_nn=True)
     train, val = rhc.find()
     result_train_record.append(train)
     result_val_record.append(val)
