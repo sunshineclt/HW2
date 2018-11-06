@@ -45,7 +45,7 @@ class RandomHillClimbing(Method):
                 result = self.problem.evaluate(self.params)
                 result_record.append(result)
                 if self.verbose:
-                    print("Iter time: %d, best result: %f" % (iter_time, result))
+                    print("Iter time: %d, result: %f" % (iter_time, result))
                 if stop_fun is not None:
                     if stop_fun(result):
                         if self.verbose:
